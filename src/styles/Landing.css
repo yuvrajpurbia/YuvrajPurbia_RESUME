@@ -31,6 +31,8 @@
   width: 100%;
   height: 100%;
   z-index: 0;
+  pointer-events: none;
+  touch-action: pan-y;
 }
 
 .landing-earth-bg canvas {
@@ -352,6 +354,7 @@ div.resume-button span {
     display: flex;
     flex-direction: column;
     padding: 0 15px 40px;
+    touch-action: pan-y;
   }
   .landing-earth-bg {
     position: absolute;
@@ -425,6 +428,52 @@ div.resume-button span {
     transition: none;
   }
   .scroll-indicator { bottom: 15px; }
+}
+
+/* ── Mobile Earth CSS Fallback ── */
+.landing-earth-mobile {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+}
+
+.landing-earth-mobile-glow {
+  position: absolute;
+  inset: -80px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(100, 150, 255, 0.15) 0%,
+    rgba(80, 120, 220, 0.08) 30%,
+    rgba(60, 100, 200, 0.03) 55%,
+    transparent 75%
+  );
+  animation: earthMobilePulse 5s ease-in-out infinite alternate;
+}
+
+.landing-earth-mobile-surface {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(140, 180, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 60% 60%, rgba(80, 130, 220, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(100, 150, 240, 0.12) 0%, rgba(50, 80, 180, 0.05) 60%, transparent 80%);
+  box-shadow:
+    0 0 50px rgba(100, 150, 255, 0.2),
+    0 0 100px rgba(80, 120, 220, 0.1),
+    0 0 180px rgba(60, 100, 200, 0.05),
+    inset 0 0 60px rgba(100, 150, 255, 0.06);
+  border: 1px solid rgba(100, 150, 255, 0.06);
+}
+
+@keyframes earthMobilePulse {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
 }
 
 /* ── Scroll Down Indicator ── */

@@ -1,4 +1,4 @@
-import { useEffect, useRef, lazy, Suspense } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import config from '../config'
 import '../styles/Career.css'
 
@@ -7,6 +7,14 @@ const GenericPlanetScene = lazy(() => import('./earth/GenericPlanetScene'))
 const Career = () => {
   const sectionRef = useRef(null)
   const timelineRef = useRef(null)
+  const [showPlanet, setShowPlanet] = useState(() => window.innerWidth >= 1025)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1025px)')
+    const onChange = (e) => setShowPlanet(e.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   useEffect(() => {
     const loadGsap = async () => {
@@ -67,11 +75,13 @@ const Career = () => {
 
   return (
     <section className="career-section" ref={sectionRef}>
-      <div className="career-planet-bg">
-        <Suspense fallback={null}>
-          <GenericPlanetScene sectionRef={sectionRef} preset="saturn" />
-        </Suspense>
-      </div>
+      {showPlanet && (
+        <div className="career-planet-bg">
+          <Suspense fallback={null}>
+            <GenericPlanetScene sectionRef={sectionRef} preset="saturn" />
+          </Suspense>
+        </div>
+      )}
       <h2>
         My <span>Career</span><br />Journey
       </h2>

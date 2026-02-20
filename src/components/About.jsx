@@ -1,4 +1,4 @@
-import { useEffect, useRef, lazy, Suspense } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import config from '../config'
 import '../styles/About.css'
 
@@ -6,6 +6,14 @@ const PlanetScene = lazy(() => import('./earth/PlanetScene'))
 
 const About = () => {
   const sectionRef = useRef(null)
+  const [showPlanet, setShowPlanet] = useState(() => window.innerWidth >= 1025)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1025px)')
+    const onChange = (e) => setShowPlanet(e.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   useEffect(() => {
     const loadGsap = async () => {
@@ -53,12 +61,13 @@ const About = () => {
 
   return (
     <section className="about-section" id="about" ref={sectionRef}>
-      {/* Planet on the left side */}
-      <div className="about-planet-bg">
-        <Suspense fallback={null}>
-          <PlanetScene sectionRef={sectionRef} />
-        </Suspense>
-      </div>
+      {showPlanet && (
+        <div className="about-planet-bg">
+          <Suspense fallback={null}>
+            <PlanetScene sectionRef={sectionRef} />
+          </Suspense>
+        </div>
+      )}
 
       <div className="about-me">
         <h3>{config.about.title}</h3>

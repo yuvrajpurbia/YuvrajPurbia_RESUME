@@ -1,4 +1,4 @@
-import { useState, useRef, lazy, Suspense } from 'react'
+import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 import config from '../config'
 import '../styles/WhatIDo.css'
 
@@ -7,15 +7,25 @@ const BluePlanetScene = lazy(() => import('./earth/BluePlanetScene'))
 const WhatIDo = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const sectionRef = useRef(null)
+  const [showPlanet, setShowPlanet] = useState(() => window.innerWidth >= 1025)
   const skills = [config.skills.develop, config.skills.design, config.skills.webApps]
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1025px)')
+    const onChange = (e) => setShowPlanet(e.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   return (
     <section className="whatIDO" ref={sectionRef}>
-      <div className="whatido-planet-bg">
-        <Suspense fallback={null}>
-          <BluePlanetScene sectionRef={sectionRef} />
-        </Suspense>
-      </div>
+      {showPlanet && (
+        <div className="whatido-planet-bg">
+          <Suspense fallback={null}>
+            <BluePlanetScene sectionRef={sectionRef} />
+          </Suspense>
+        </div>
+      )}
       <div className="what-box">
         <h2>
           W<span className="hat-h2">hat</span><br />

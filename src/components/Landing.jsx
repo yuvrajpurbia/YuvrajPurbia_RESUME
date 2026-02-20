@@ -1,4 +1,4 @@
-import { useEffect, useRef, lazy, Suspense } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import { FaGithub, FaLinkedin, FaEnvelope, FaXTwitter } from 'react-icons/fa6'
 import config from '../config'
 import '../styles/Landing.css'
@@ -9,6 +9,15 @@ const Landing = () => {
   const sectionRef = useRef(null)
   const introInnerRef = useRef(null)
   const infoInnerRef = useRef(null)
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 768)
+
+  // Track desktop vs mobile for conditional 3D rendering
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)')
+    const onChange = (e) => setIsDesktop(e.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   // 3D mouse-tracking tilt (desktop only, rAF-throttled)
   useEffect(() => {
@@ -107,13 +116,20 @@ const Landing = () => {
   return (
     <section className="landing-section" ref={sectionRef}>
       <div className="landing-earth-bg">
-        <Suspense fallback={
-          <div className="avatar-loading">
-            <div className="avatar-loading-orb" />
+        {isDesktop ? (
+          <Suspense fallback={
+            <div className="avatar-loading">
+              <div className="avatar-loading-orb" />
+            </div>
+          }>
+            <EarthScene />
+          </Suspense>
+        ) : (
+          <div className="landing-earth-mobile" aria-hidden="true">
+            <div className="landing-earth-mobile-glow" />
+            <div className="landing-earth-mobile-surface" />
           </div>
-        }>
-          <EarthScene />
-        </Suspense>
+        )}
       </div>
 
       <div className="landing-container">
