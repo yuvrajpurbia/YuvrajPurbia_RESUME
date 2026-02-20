@@ -231,6 +231,8 @@ main {
   .container-main {
     position: static !important;
     height: auto !important;
+    overflow-x: hidden !important;
+    touch-action: pan-y !important;
   }
   .back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
 }

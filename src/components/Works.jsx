@@ -26,6 +26,7 @@ const Works = () => {
 
     let ctx
     const isDesktop = window.matchMedia('(min-width: 769px)')
+    let setupRef
 
     const init = async () => {
       const { gsap } = await import('gsap')
@@ -38,6 +39,9 @@ const Works = () => {
 
       const setup = () => {
         if (ctx) ctx.revert()
+
+        // Clear any leftover inline transforms from GSAP
+        track.style.transform = ''
 
         ctx = gsap.context(() => {
           gsap.fromTo('.work-section h2',
@@ -87,6 +91,7 @@ const Works = () => {
         }, section)
       }
 
+      setupRef = setup
       setup()
       isDesktop.addEventListener('change', setup)
     }
@@ -94,7 +99,7 @@ const Works = () => {
     init()
     return () => {
       if (ctx) ctx.revert()
-      isDesktop.removeEventListener('change', () => {})
+      if (setupRef) isDesktop.removeEventListener('change', setupRef)
     }
   }, [ready])
 
