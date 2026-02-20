@@ -1,0 +1,244 @@
+.work-section {
+  position: relative;
+  padding: 80px 0;
+}
+
+/* ── Glowing Venus ── */
+.work-venus {
+  position: absolute;
+  top: 50%;
+  right: 200px;
+  transform: translateY(-50%);
+  width: 380px;
+  height: 380px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.venus-glow {
+  position: absolute;
+  inset: -90px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 220, 140, 0.2) 0%,
+    rgba(255, 200, 100, 0.1) 30%,
+    rgba(255, 180, 80, 0.04) 55%,
+    transparent 75%
+  );
+  animation: venusPulse 5s ease-in-out infinite alternate;
+}
+
+.venus-surface {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 240, 200, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 60% 55%, rgba(255, 200, 120, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(255, 215, 150, 0.15) 0%, rgba(200, 160, 80, 0.06) 60%, transparent 80%);
+  box-shadow:
+    0 0 50px rgba(255, 200, 120, 0.25),
+    0 0 100px rgba(255, 180, 80, 0.12),
+    0 0 180px rgba(255, 160, 60, 0.06),
+    inset 0 0 70px rgba(255, 200, 120, 0.08);
+  border: 1px solid rgba(255, 200, 120, 0.06);
+}
+
+@keyframes venusPulse {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.06); }
+}
+
+.work-section h2 {
+  margin: 0 0 40px;
+  font-size: 70px;
+  font-weight: 500;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.work-section h2 > span {
+  color: var(--accentColor);
+}
+
+/* ── Track — direct child of section, no wrapper ── */
+.work-train-track {
+  display: flex;
+  gap: 40px;
+  width: max-content;
+  padding: 20px 5vw;
+  will-change: transform;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Cards ── */
+.work-card {
+  flex-shrink: 0;
+  width: 80vw;
+  max-width: 1100px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 40px 50px;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.work-card:hover {
+  border-color: rgba(194, 164, 255, 0.3);
+  box-shadow: 0 20px 80px rgba(194, 164, 255, 0.1);
+}
+
+/* ── Card top: number + title ── */
+.work-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.work-card-number {
+  font-size: 64px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.15);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.work-card-header {
+  padding-top: 8px;
+}
+
+.work-card-header h3 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.work-card-category {
+  font-size: 15px;
+  color: var(--accentColor);
+  font-weight: 500;
+}
+
+/* ── Card body: details + thumbnail ── */
+.work-card-body {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.work-card-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.work-card-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+
+.work-card-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 12px;
+}
+
+.work-card-tech {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.8;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.work-card-tech span {
+  padding: 4px 14px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ── Thumbnail ── */
+.work-card-thumbnail {
+  flex-shrink: 0;
+  width: 420px;
+  height: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0b080c, #1a1025, #0b080c);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.work-card-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.work-card:hover .work-card-thumbnail img {
+  transform: scale(1.05);
+}
+
+.work-card-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(194, 164, 255, 0.08) 0%, transparent 60%),
+    linear-gradient(135deg, #0b080c, #1a1025, #0b080c);
+}
+
+.work-card-placeholder-icon {
+  font-size: 60px;
+  color: var(--accentColor);
+  opacity: 0.4;
+}
+
+@media only screen and (max-width: 1200px) {
+  .work-venus { width: 300px; height: 300px; right: -80px; }
+  .venus-glow { inset: -60px; }
+  .work-card { width: 85vw; padding: 30px 35px; }
+  .work-card-thumbnail { width: 320px; height: 220px; }
+  .work-card-header h3 { font-size: 26px; }
+  .work-card-number { font-size: 50px; }
+}
+
+@media only screen and (max-width: 768px) {
+  .work-venus { width: 220px; height: 220px; right: -60px; top: 30%; }
+  .venus-glow { inset: -40px; }
+  .work-section { padding: 60px 0; }
+  .work-section h2 { font-size: 40px; margin-bottom: 30px; }
+  .work-train-track {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 25px;
+    padding: 0 5vw;
+    will-change: auto;
+  }
+  .work-card { width: 90vw; padding: 25px 20px; }
+  .work-card-body { flex-direction: column; }
+  .work-card-thumbnail { width: 100%; height: 200px; }
+  .work-card-top { gap: 15px; margin-bottom: 20px; padding-bottom: 15px; }
+  .work-card-number { font-size: 40px; }
+  .work-card-header h3 { font-size: 22px; }
+}
+
+@media only screen and (max-width: 1400px) {
+  .work-section h2 { font-size: 55px; }
+}

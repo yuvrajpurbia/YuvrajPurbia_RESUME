@@ -1,0 +1,260 @@
+.loading-screen {
+  position: fixed;
+  width: 100vw;
+  height: var(--vh);
+  background-color: #0b080c;
+  z-index: 999999999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  transition: visibility 0.4s ease 0.8s;
+  overflow: hidden;
+}
+
+/* ── Starfield ── */
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1px 1px at 55% 45%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 85% 55%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 15% 65%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 35% 80%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 60% 70%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 80% 85%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 5% 90%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 50% 50%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 20% 5%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 45% 25%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 95% 60%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 30% 50%, rgba(255,255,255,0.7), transparent);
+  animation: starTwinkle 8s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+/* ── Purple Nebula Glow ── */
+.loading-screen::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(168, 124, 255, 0.08) 0%,
+    rgba(140, 100, 240, 0.04) 40%,
+    transparent 70%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes starTwinkle {
+  0% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+  100% { opacity: 1; transform: scale(1.02) rotate(0.5deg); }
+}
+
+/* ── 3D Warp on click ── */
+.loading-screen.loaded {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-screen.loaded .loading-scene {
+  transform: scale(2.5) translateZ(600px);
+  opacity: 0;
+}
+
+/* ── Scene wrapper for 3D transform ── */
+.loading-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.8s cubic-bezier(0.33, 0.11, 1, 0.72), opacity 0.4s ease 0.5s;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Subtitle ── */
+.loading-subtitle {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: rgba(194, 164, 255, 0.5);
+  margin-bottom: 24px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Button wrap ── */
+.loading-wrap {
+  --Lsize: 145px;
+  padding: 6px;
+  position: relative;
+  min-width: 0px;
+  min-height: 0px;
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(194, 164, 255, 0.15);
+  overflow: hidden;
+  transition: 0.8s ease-in-out;
+  transition-delay: 0.2s;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 80px rgba(168, 124, 255, 0.06);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.loading-clicked {
+  transition-delay: 0ms;
+  transition-timing-function: cubic-bezier(0.33, 0.11, 1, 0.72);
+  transform: scale(1);
+  min-width: calc(100vw + 5000px);
+  border-radius: 5000px;
+  min-height: calc(100vh + 500px);
+  box-shadow: none;
+  border-color: transparent;
+  background-color: #0b080c;
+}
+
+/* ── Hover glow ── */
+.loading-hover {
+  background-color: #a87cff;
+  width: 250px;
+  height: 120px;
+  position: absolute;
+  top: var(--mouse-y);
+  left: var(--mouse-x);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(30px);
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+
+.loading-wrap:hover .loading-hover {
+  opacity: 1;
+}
+
+.loading-clicked:hover .loading-hover,
+.loading-clicked .loading-hover {
+  opacity: 0;
+}
+
+/* ── Button ── */
+.loading-button {
+  padding: 20px 50px;
+  border-radius: 100px;
+  background-color: rgba(11, 8, 12, 0.8);
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 600;
+  position: relative;
+  z-index: 9;
+  color: #eae5ec;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.loading-button:before {
+  content: '';
+  background-color: #fff;
+  top: var(--mouse-y);
+  left: var(--mouse-x);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  z-index: 99;
+  filter: blur(60px);
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.loading-button:hover:before {
+  opacity: 1;
+}
+
+.loading-clicked .loading-button:before {
+  opacity: 0;
+}
+
+.loading-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* ── Hint text ── */
+.loading-hint {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 20px;
+  font-family: 'Inter', sans-serif;
+  opacity: 0;
+  animation: hintFadeIn 0.6s ease forwards 2.5s;
+}
+
+@keyframes hintFadeIn {
+  to { opacity: 1; }
+}
+
+/* ── Marquee (keep but hidden on click) ── */
+.loading-marquee {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  color: #0b080c;
+  font-size: 60px;
+  font-weight: 600;
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.loading-clicked .loading-marquee {
+  opacity: 0;
+}
+
+/* ── Responsive ── */
+@media only screen and (min-width: 1400px) {
+  .loading-wrap { --Lsize: 210px; }
+  .loading-button { padding: 30px 70px; font-size: 18px; letter-spacing: 6px; }
+  .loading-marquee { font-size: 100px; }
+  .loading-subtitle { font-size: 13px; letter-spacing: 8px; }
+  .loading-hint { font-size: 13px; }
+}
+
+@media only screen and (max-width: 600px) {
+  .loading-button { padding: 16px 36px; font-size: 13px; letter-spacing: 3px; }
+  .loading-subtitle { font-size: 10px; letter-spacing: 4px; margin-bottom: 18px; }
+  .loading-hint { font-size: 10px; }
+  .loading-screen::after { width: 350px; height: 350px; }
+}
